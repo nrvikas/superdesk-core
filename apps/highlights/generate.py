@@ -1,7 +1,7 @@
 
 import superdesk
 from superdesk.metadata.item import ITEM_TYPE, CONTENT_TYPE
-from flask import render_template, render_template_string
+from flask import render_template
 from superdesk.errors import SuperdeskApiError
 
 
@@ -58,7 +58,8 @@ class GenerateHighlightsService(superdesk.Service):
                             items.append(item)
 
             if stringTemplate:
-                doc['body_html'] = render_template_string(stringTemplate, package=package, items=items)
+                template = superdesk.app.jinja_env.from_string(stringTemplate)
+                doc['body_html'] = template.render(package=package, items=items)
             else:
                 doc['body_html'] = render_template('default_highlight_template.txt', package=package, items=items)
         if preview:
