@@ -1,6 +1,10 @@
 # Superdesk Server Changelog
 
-## [Unreleased]
+## [1.1.1] 2016-08-30
+
+### Fixed
+
+- Fix query returning items for generating highlights.
 
 ## [1.1] 2016-08-29
 
