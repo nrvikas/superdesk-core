@@ -4,3 +4,5 @@ pep8
 pyflakes<=1.1
 httmock
 wooper
+
+-e git+git://github.com/mugurrus/cerberus.git@56cad51ba9522dd9a7d54463cde6f40edfcbb43d#egg=cerberus==0.9.3

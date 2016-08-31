@@ -14,6 +14,8 @@ import superdesk
 from eve.io.mongo import Validator
 from bs4 import BeautifulSoup
 from superdesk.metadata.item import ITEM_TYPE
+from cerberus.cerberus import ValidateException
+import sys
 
 logger = logging.getLogger(__name__)
 
@@ -143,7 +145,12 @@ class ValidateService(superdesk.Service):
             self._sanitize_fields(doc['validate'], validator)
             v = SchemaValidator()
             v.allow_unknown = True
-            v.validate(doc['validate'], self._get_validator_schema(validator))
+            try:
+                v.validate(doc['validate'], self._get_validator_schema(validator))
+            except ValidateException as e:
+                logger.error(sys.exc_info()[2])
+                logger.error(e.message)
+                logger.error('Definition %s on field %s with value %s' % (e.definition, e.field, e.value))
             error_list = v.errors
             response = []
             for e in error_list:
